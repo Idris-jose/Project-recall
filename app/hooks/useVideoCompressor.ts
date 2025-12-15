@@ -4,14 +4,22 @@ import { fetchFile, toBlobURL } from '@ffmpeg/util';
 
 export function useVideoCompressor() {
   const [compressing, setCompressing] = useState(false);
+  const [progress, setProgress] = useState(0); // New: Track progress percentage
   const ffmpegRef = useRef(new FFmpeg());
 
   const load = async () => {
     const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd';
     const ffmpeg = ffmpegRef.current;
     
-    // Only load if not already loaded
     if (!ffmpeg.loaded) {
+        // Setup the listener BEFORE loading
+        // @ts-ignore - The types for the event are sometimes tricky in TS
+        ffmpeg.on('progress', (event) => {
+            // "event.progress" is a number between 0 and 1
+            const percentage = Math.round(event.progress * 100);
+            setProgress(percentage);
+        });
+
         await ffmpeg.load({
             coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
             wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
@@ -21,6 +29,8 @@ export function useVideoCompressor() {
 
   const compress = async (file: File): Promise<File | null> => {
     setCompressing(true);
+    setProgress(0); // Reset progress on start
+    
     try {
       const ffmpeg = ffmpegRef.current;
       await load();
@@ -28,17 +38,16 @@ export function useVideoCompressor() {
       // Write file to memory
       await ffmpeg.writeFile('input.mp4', await fetchFile(file));
 
-      // Run compression command
-      // -vf scale=480:-2 : Downscale to 480p width (keep aspect ratio)
-      // -r 10 : Reduce framerate to 10fps (AI doesn't need 60fps)
-      // -crf 28 : High compression (lower quality visual, but fine for AI)
-      // -preset ultrafast : Prioritize speed over perfect compression
+      // --- THE SPEED SETTINGS ---
+      // -vf scale=320:-2  -> Low resolution (320px width)
+      // -r 1              -> 1 Frame Per Second (Huge speed boost)
+      // -crf 35           -> Low quality (Pixelated but fine for AI)
       await ffmpeg.exec([
           '-i', 'input.mp4', 
-          '-vf', 'scale=480:-2', 
-          '-r', '10', 
+          '-vf', 'scale=160:-2',
+          '-r', '1', 
           '-c:v', 'libx264', 
-          '-crf', '30', 
+          '-crf', '35', 
           '-preset', 'ultrafast', 
           'output.mp4'
       ]);
@@ -54,8 +63,10 @@ export function useVideoCompressor() {
       return null;
     } finally {
       setCompressing(false);
+      setProgress(0);
     }
   };
 
-  return { compress, compressing };
+  // Return 'progress' so the Dashboard can see it
+  return { compress, compressing, progress };
 }

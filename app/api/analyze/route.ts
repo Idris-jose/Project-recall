@@ -14,50 +14,61 @@ export async function POST(request: Request) {
 
   try {
     const formData = await request.formData();
-    const file = formData.get("file") as File;
     const prompt = (formData.get("prompt") as string) || "Summarize this video.";
+    
+    // Check if we already have a Gemini URI (from previous chat)
+    let fileUri = formData.get("fileUri") as string;
+    let mimeType = formData.get("mimeType") as string || "video/mp4";
 
-    if (!file) {
-      return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
+    // 1. IF NO URI, WE MUST UPLOAD THE FILE
+    if (!fileUri) {
+        const file = formData.get("file") as File;
+        if (!file) {
+          return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
+        }
+
+        console.log("📂 New file detected. Starting processing...");
+
+        // Save file temporarily
+        const bytes = Buffer.from(await file.arrayBuffer());
+        tempFilePath = path.join(os.tmpdir(), `upload_${Date.now()}_${file.name}`);
+        await writeFile(tempFilePath, bytes);
+
+        // Upload to Gemini
+        const upload = await fileManager.uploadFile(tempFilePath, {
+          mimeType: file.type,
+          displayName: file.name,
+        });
+
+        fileUri = upload.file.uri;
+        mimeType = upload.file.mimeType;
+
+        // Poll until active
+        let uploadedFile = await fileManager.getFile(upload.file.name);
+        while (uploadedFile.state === "PROCESSING") {
+          console.log("⏳ Processing video in background...");
+          await new Promise((r) => setTimeout(r, 2000));
+          uploadedFile = await fileManager.getFile(upload.file.name);
+        }
+
+        if (uploadedFile.state !== "ACTIVE") {
+          return NextResponse.json({ error: "Google failed to process video" }, { status: 500 });
+        }
+
+        // Cleanup local file
+        await unlink(tempFilePath);
+    } else {
+        console.log("⚡ Reuse existing video URI:", fileUri);
     }
 
-    // Save file temporarily (required for uploadFile)
-    const bytes = Buffer.from(await file.arrayBuffer());
-    tempFilePath = path.join(os.tmpdir(), `upload_${Date.now()}_${file.name}`);
-    await writeFile(tempFilePath, bytes);
-
-    console.log("File saved locally → uploading…");
-
-    // Upload to Gemini File API
-    const upload = await fileManager.uploadFile(tempFilePath, {
-      mimeType: file.type,
-      displayName: file.name,
-    });
-
-    console.log("Uploaded:", upload.file.uri);
-
-    // Poll until file is ready
-    let uploadedFile = await fileManager.getFile(upload.file.name);
-    while (uploadedFile.state === "PROCESSING") {
-      console.log("Processing video...");
-      await new Promise((r) => setTimeout(r, 2000));
-      uploadedFile = await fileManager.getFile(upload.file.name);
-    }
-
-    if (uploadedFile.state !== "ACTIVE") {
-      return NextResponse.json({ error: "Google failed to process video" }, { status: 500 });
-    }
-
-    console.log("Video ready → generating content…");
-
-   // "gemini-flash-latest" points to the stable version with a working Free Tier
-const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
+    // 2. GENERATE CONTENT (Using the URI)
+    const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
 
     const result = await model.generateContent([
       {
         fileData: {
-          mimeType: upload.file.mimeType,
-          fileUri: upload.file.uri, // ← MUST USE THIS
+          mimeType: mimeType,
+          fileUri: fileUri, // Use the new or existing URI
         },
       },
       { text: prompt },
@@ -65,20 +76,18 @@ const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
 
     const output = result.response.text();
 
-    // Cleanup
-    await unlink(tempFilePath);
+    // 3. RETURN RESULT + URI (So frontend can reuse it)
+    return NextResponse.json({ 
+        result: output,
+        fileUri: fileUri, // Sending this back is the key!
+        mimeType: mimeType
+    });
 
-    return NextResponse.json({ result: output });
   } catch (err) {
     console.error("Analysis Error:", err);
-
     if (tempFilePath) {
-      try {
-        await unlink(tempFilePath);
-      } catch {}
+        try { await unlink(tempFilePath); } catch {}
     }
-
-    return NextResponse.json({ error: "Server error analyzing video" }, { status: 500 });
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
- 
