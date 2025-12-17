@@ -1,9 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { 
-  Search, Play, Zap, Database, Command, 
-  Sparkles, Lock, FileVideo, ArrowRight, 
+import {
+  Search, Play, Zap, Database, Command,
+  Sparkles, Lock, FileVideo, ArrowRight,
   CheckCircle2, AlertCircle, Menu, X
 } from 'lucide-react';
 import { useState } from 'react';
@@ -43,38 +43,38 @@ export default function WaitlistPage() {
 
   return (
     <div className="relative min-h-screen bg-[#050505] text-white overflow-hidden font-sans selection:bg-[#39FF14] selection:text-black">
-      
+
       {/* --- AMBIENT BACKGROUNDS --- */}
-      <div className="fixed inset-0 z-0 opacity-20 pointer-events-none" 
-        style={{ 
-          backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)', 
-          backgroundSize: '32px 32px' 
-        }} 
+      <div className="fixed inset-0 z-0 opacity-20 pointer-events-none"
+        style={{
+          backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)',
+          backgroundSize: '32px 32px'
+        }}
       />
       <div className="fixed top-[-20%] left-[20%] w-[600px] h-[600px] bg-[#39FF14] rounded-full blur-[140px] opacity-[0.04] pointer-events-none" />
       <div className="fixed bottom-[-20%] right-[10%] w-[600px] h-[600px] bg-emerald-600 rounded-full blur-[120px] opacity-[0.06] pointer-events-none" />
 
       <div className="relative z-10">
         <Navbar />
-        <Hero 
-          email={email} 
-          setEmail={setEmail} 
-          handleSubmit={handleSubmit} 
-          submitted={submitted} 
-          isLoading={isLoading} 
+        <Hero
+          email={email}
+          setEmail={setEmail}
+          handleSubmit={handleSubmit}
+          submitted={submitted}
+          isLoading={isLoading}
           error={error}
         />
         <ProblemSolution />
         <HowItWorks />
         <Features />
-        <CTA 
-          email={email} 
-          setEmail={setEmail} 
-          handleSubmit={handleSubmit} 
-          submitted={submitted} 
-          isLoading={isLoading} 
+        <CTA
+          email={email}
+          setEmail={setEmail}
+          handleSubmit={handleSubmit}
+          submitted={submitted}
+          isLoading={isLoading}
         />
-        
+
       </div>
     </div>
   );
@@ -93,7 +93,7 @@ function Navbar() {
           </div>
           <span className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-neutral-400">Recall</span>
         </div>
-        
+
         {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-8">
           <a href="#" className="text-sm text-neutral-400 hover:text-white transition-colors">How it works</a>
@@ -117,12 +117,14 @@ function Navbar() {
   );
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 function Hero({ email, setEmail, handleSubmit, submitted, isLoading, error }: any) {
+  /* eslint-enable @typescript-eslint/no-explicit-any */
   return (
     <section className="pt-32 pb-20 px-6 relative">
       <div className="max-w-6xl mx-auto text-center">
-        
-        <motion.div 
+
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#39FF14]/5 border border-[#39FF14]/20 text-[#39FF14] text-xs font-medium mb-8 backdrop-blur-sm"
@@ -131,7 +133,7 @@ function Hero({ email, setEmail, handleSubmit, submitted, isLoading, error }: an
           <span>v1.0 Public Beta coming soon</span>
         </motion.div>
 
-        <motion.h1 
+        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
@@ -143,7 +145,7 @@ function Hero({ email, setEmail, handleSubmit, submitted, isLoading, error }: an
           </span>
         </motion.h1>
 
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -153,7 +155,7 @@ function Hero({ email, setEmail, handleSubmit, submitted, isLoading, error }: an
         </motion.p>
 
         {/* Input Form */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
@@ -164,16 +166,16 @@ function Hero({ email, setEmail, handleSubmit, submitted, isLoading, error }: an
               <form onSubmit={handleSubmit} className="relative group">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-[#39FF14]/50 to-emerald-600/50 rounded-xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
                 <div className="relative flex p-1 bg-[#0A0A0A] rounded-xl border border-white/10">
-                  <input 
-                    type="email" 
+                  <input
+                    type="email"
                     required
-                    placeholder="name@company.com" 
+                    placeholder="name@company.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="flex-1 bg-transparent border-none rounded-lg px-4 py-3 text-white placeholder-neutral-600 focus:outline-none focus:ring-0"
                   />
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     disabled={isLoading}
                     className="bg-[#39FF14] text-black font-semibold px-6 py-3 rounded-lg hover:bg-[#32e012] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-[0_0_20px_-5px_rgba(57,255,20,0.3)] hover:shadow-[0_0_25px_-5px_rgba(57,255,20,0.5)]"
                   >
@@ -189,22 +191,22 @@ function Hero({ email, setEmail, handleSubmit, submitted, isLoading, error }: an
               <p className="text-xs text-neutral-500">Join 4,200+ creators. No spam.</p>
             </div>
           ) : (
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               className="flex items-center justify-center gap-3 text-[#39FF14] bg-[#39FF14]/5 border border-[#39FF14]/20 rounded-xl p-4 backdrop-blur-md"
             >
               <CheckCircle2 size={24} />
               <div className="text-left">
-                <p className="font-bold">You're on the list!</p>
-                <p className="text-sm text-[#39FF14]/80">We'll notify you when beta opens.</p>
+                <p className="font-bold">You&apos;re on the list!</p>
+                <p className="text-sm text-[#39FF14]/80">We&apos;ll notify you when beta opens.</p>
               </div>
             </motion.div>
           )}
         </motion.div>
 
         {/* --- GLASSMOPHISM DASHBOARD MOCKUP --- */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 50, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ delay: 0.5, duration: 1, type: "spring" }}
@@ -212,7 +214,7 @@ function Hero({ email, setEmail, handleSubmit, submitted, isLoading, error }: an
         >
           {/* Glow behind dashboard */}
           <div className="absolute inset-0 bg-gradient-to-t from-[#39FF14]/10 to-transparent blur-3xl -z-10" />
-          
+
           <div className="rounded-xl border border-white/10 bg-[#0A0A0A]/60 backdrop-blur-2xl shadow-2xl overflow-hidden">
             {/* Window Controls */}
             <div className="h-10 border-b border-white/5 bg-white/[0.02] flex items-center px-4 justify-between">
@@ -226,7 +228,7 @@ function Hero({ email, setEmail, handleSubmit, submitted, isLoading, error }: an
                 <span className="text-neutral-700">|</span>
                 <span>v1.0.2</span>
               </div>
-              <div className="w-10"></div> 
+              <div className="w-10"></div>
             </div>
 
             {/* App Layout */}
@@ -246,12 +248,12 @@ function Hero({ email, setEmail, handleSubmit, submitted, isLoading, error }: an
                 <div>
                   <div className="text-[10px] font-bold text-neutral-600 mb-3 uppercase tracking-widest">Smart Tags</div>
                   <div className="space-y-1">
-                     {['#finance', '#product-demo', '#interview'].map((tag) => (
-                       <div key={tag} className="flex items-center gap-2 px-3 py-2 text-sm text-neutral-500 hover:text-white cursor-pointer">
-                         <div className="w-1.5 h-1.5 rounded-full bg-[#39FF14]" />
-                         {tag}
-                       </div>
-                     ))}
+                    {['#finance', '#product-demo', '#interview'].map((tag) => (
+                      <div key={tag} className="flex items-center gap-2 px-3 py-2 text-sm text-neutral-500 hover:text-white cursor-pointer">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#39FF14]" />
+                        {tag}
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -263,8 +265,8 @@ function Hero({ email, setEmail, handleSubmit, submitted, isLoading, error }: an
                   <div className="absolute inset-0 bg-gradient-to-r from-[#39FF14]/20 to-emerald-500/20 rounded-lg blur opacity-0 group-hover:opacity-30 transition duration-500" />
                   <div className="relative flex items-center bg-[#0F0F0F] border border-white/10 rounded-lg shadow-lg">
                     <Search className="ml-4 text-neutral-500" size={18} />
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       value="Find clips about 'pricing strategy'"
                       readOnly
                       className="w-full bg-transparent border-none py-3 px-3 text-neutral-300 focus:outline-none font-mono text-sm"
@@ -293,7 +295,7 @@ function Hero({ email, setEmail, handleSubmit, submitted, isLoading, error }: an
                       </div>
                       <p className="text-xs text-neutral-500 mb-3">Recorded Dec 12, 2024 • 45 mins</p>
                       <div className="bg-black/40 rounded-lg p-3 border border-white/5 text-sm text-neutral-300 font-light leading-relaxed">
-                        "...specifically regarding the <span className="text-[#39FF14] bg-[#39FF14]/10 px-1 py-0.5 rounded font-medium">pricing strategy</span>, we decided to shift focus to enterprise tiers..."
+                        &quot;...specifically regarding the <span className="text-[#39FF14] bg-[#39FF14]/10 px-1 py-0.5 rounded font-medium">pricing strategy</span>, we decided to shift focus to enterprise tiers...&quot;
                       </div>
                     </div>
                   </div>
@@ -327,11 +329,11 @@ function ProblemSolution() {
             Video is the <span className="text-[#39FF14]">Dark Matter</span> <br /> of your data.
           </h2>
           <p className="text-lg text-neutral-400 mb-8 leading-relaxed">
-            You record thousands of hours of meetings, podcasts, and tutorials. 
-            But once it's recorded, that knowledge is locked in a black box. 
+            You record thousands of hours of meetings, podcasts, and tutorials.
+            But once it&apos;s recorded, that knowledge is locked in a black box.
             Finding a 10-second clip takes 20 minutes of scrubbing.
           </p>
-          
+
           <div className="space-y-6">
             {[
               "Wasted hours manually scrubbing timelines",
@@ -349,37 +351,37 @@ function ProblemSolution() {
         </div>
 
         <div className="relative">
-           <div className="absolute inset-0 bg-gradient-to-r from-[#39FF14]/10 to-transparent blur-[80px] rounded-full" />
-           <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10 transform rotate-2 hover:rotate-0 transition-transform duration-500">
-              {/* Abstract Representation of Search */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full px-12 z-20">
-                 <div className="bg-[#0A0A0A]/90 backdrop-blur-md border border-[#39FF14]/50 shadow-[0_0_50px_-10px_rgba(57,255,20,0.2)] rounded-2xl p-8 text-center">
-                    <div className="w-12 h-12 bg-[#39FF14]/10 rounded-full flex items-center justify-center mx-auto mb-4 text-[#39FF14]">
-                        <Search size={24} />
-                    </div>
-                    <h3 className="font-bold text-white text-xl mb-2">Instant Recall</h3>
-                    <p className="text-sm text-neutral-400">Search by meaning, not just keywords.</p>
-                 </div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#39FF14]/10 to-transparent blur-[80px] rounded-full" />
+          <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10 transform rotate-2 hover:rotate-0 transition-transform duration-500">
+            {/* Abstract Representation of Search */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full px-12 z-20">
+              <div className="bg-[#0A0A0A]/90 backdrop-blur-md border border-[#39FF14]/50 shadow-[0_0_50px_-10px_rgba(57,255,20,0.2)] rounded-2xl p-8 text-center">
+                <div className="w-12 h-12 bg-[#39FF14]/10 rounded-full flex items-center justify-center mx-auto mb-4 text-[#39FF14]">
+                  <Search size={24} />
+                </div>
+                <h3 className="font-bold text-white text-xl mb-2">Instant Recall</h3>
+                <p className="text-sm text-neutral-400">Search by meaning, not just keywords.</p>
               </div>
-              
-              {/* Background Elements (Faded) */}
-              <div className="space-y-4 opacity-30 blur-sm pointer-events-none grayscale">
-                 <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 bg-white/10 rounded-xl" />
-                    <div className="flex-1 space-y-2">
-                       <div className="h-3 w-3/4 bg-white/10 rounded" />
-                       <div className="h-3 w-full bg-white/5 rounded" />
-                    </div>
-                 </div>
-                 <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 bg-white/10 rounded-xl" />
-                    <div className="flex-1 space-y-2">
-                       <div className="h-3 w-1/2 bg-white/10 rounded" />
-                       <div className="h-3 w-full bg-white/5 rounded" />
-                    </div>
-                 </div>
+            </div>
+
+            {/* Background Elements (Faded) */}
+            <div className="space-y-4 opacity-30 blur-sm pointer-events-none grayscale">
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 bg-white/10 rounded-xl" />
+                <div className="flex-1 space-y-2">
+                  <div className="h-3 w-3/4 bg-white/10 rounded" />
+                  <div className="h-3 w-full bg-white/5 rounded" />
+                </div>
               </div>
-           </div>
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 bg-white/10 rounded-xl" />
+                <div className="flex-1 space-y-2">
+                  <div className="h-3 w-1/2 bg-white/10 rounded" />
+                  <div className="h-3 w-full bg-white/5 rounded" />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -429,7 +431,7 @@ function Features() {
     <section className="py-32 px-6">
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 gap-6">
-          
+
           {/* Feature 1: Large */}
           <div className="md:col-span-2 bg-gradient-to-b from-white/5 to-black border border-white/10 rounded-3xl p-12 relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#39FF14]/5 blur-[100px] rounded-full pointer-events-none" />
@@ -440,7 +442,7 @@ function Features() {
               </div>
               <h3 className="text-4xl font-bold mb-6">Context Caching for <span className="text-[#39FF14]">10x Speed</span></h3>
               <p className="text-neutral-400 text-lg mb-10 leading-relaxed">
-                We don't just re-read the file every time. We cache the semantic context, making follow-up questions instant and costing you 90% less tokens.
+                We don&apos;t just re-read the file every time. We cache the semantic context, making follow-up questions instant and costing you 90% less tokens.
               </p>
               <button className="text-white font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
                 Read the technical docs <ArrowRight size={18} className="text-[#39FF14]" />
@@ -453,23 +455,25 @@ function Features() {
             { title: "Native Multimodality", desc: "It sees what you see. Recall reads text on screen, identifies slides, and recognizes visual cues." },
             { title: "API First Architecture", desc: "Building a platform? Use our REST API to add video search to your own app in minutes." }
           ].map((f, i) => (
-             <div key={i} className="bg-[#0A0A0A] border border-white/10 rounded-3xl p-10 hover:bg-white/[0.03] transition-colors group">
-               <h3 className="text-2xl font-bold mb-4 group-hover:text-[#39FF14] transition-colors">{f.title}</h3>
-               <p className="text-neutral-400 leading-relaxed">{f.desc}</p>
-             </div>
+            <div key={i} className="bg-[#0A0A0A] border border-white/10 rounded-3xl p-10 hover:bg-white/[0.03] transition-colors group">
+              <h3 className="text-2xl font-bold mb-4 group-hover:text-[#39FF14] transition-colors">{f.title}</h3>
+              <p className="text-neutral-400 leading-relaxed">{f.desc}</p>
+            </div>
           ))}
-          
+
         </div>
       </div>
     </section>
   );
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 function CTA({ email, setEmail, handleSubmit, isLoading, submitted }: any) {
+  /* eslint-enable @typescript-eslint/no-explicit-any */
   return (
     <section className="py-32 px-6 relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#39FF14] rounded-full blur-[200px] opacity-[0.08] pointer-events-none" />
-      
+
       <div className="relative max-w-4xl mx-auto text-center bg-white/[0.02] backdrop-blur-3xl border border-white/10 rounded-[2.5rem] p-12 md:p-24 overflow-hidden">
         {/* Shine effect */}
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#39FF14]/50 to-transparent opacity-50" />
@@ -480,19 +484,19 @@ function CTA({ email, setEmail, handleSubmit, isLoading, submitted }: any) {
         <p className="text-xl text-neutral-400 mb-12 max-w-2xl mx-auto">
           Join the waitlist today and get 3 months of the Pro plan for free when we launch.
         </p>
-        
+
         {!submitted ? (
           <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-4 max-w-lg mx-auto">
-            <input 
-              type="email" 
+            <input
+              type="email"
               required
-              placeholder="Enter your email" 
+              placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="flex-1 bg-black/50 border border-white/10 rounded-xl px-6 py-4 text-white placeholder-neutral-500 focus:border-[#39FF14] focus:outline-none transition-colors"
             />
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               disabled={isLoading}
               className="bg-[#39FF14] text-black font-bold px-8 py-4 rounded-xl hover:shadow-[0_0_30px_-5px_rgba(57,255,20,0.5)] transition-all disabled:opacity-50 whitespace-nowrap"
             >
