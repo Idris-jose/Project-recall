@@ -2,7 +2,9 @@ import { Search } from 'lucide-react';
 
 function ProblemSolution() {
   return (
-    <section className="py-32 px-6 relative">
+    <section 
+    id='problems-solved'
+    className="py-32 px-6 relative">
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-20 items-center">
         <div>
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-8">

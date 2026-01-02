@@ -2,7 +2,9 @@ import { Lock, ArrowRight } from 'lucide-react';
 
 function Features() {
   return (
-    <section className="py-32 px-6">
+    <section
+    id="features"
+    className="py-32 px-6">
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 gap-6">
 

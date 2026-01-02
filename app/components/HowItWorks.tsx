@@ -8,7 +8,9 @@ function HowItWorks() {
   ];
 
   return (
-    <section className="py-32 px-6 bg-white/[0.02] border-y border-white/5">
+    <section
+    id="how-it-works"
+    className="py-32 px-6 bg-white/[0.02] border-y border-white/5">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-20">
           <h2 className="text-3xl md:text-5xl font-bold mb-6">How Recall works</h2>

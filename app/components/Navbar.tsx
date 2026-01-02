@@ -15,9 +15,9 @@ function Navbar() {
 
         {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-8">
-          <a href="#" className="text-sm text-neutral-400 hover:text-white transition-colors">How it works</a>
-          <a href="#" className="text-sm text-neutral-400 hover:text-white transition-colors">Features</a>
-          <a href="#" className="text-sm text-neutral-400 hover:text-white transition-colors">Pricing</a>
+          <a href="#how-it-works" className="text-sm text-neutral-400 hover:text-white transition-colors">How it works</a>
+          <a href="#features" className="text-sm text-neutral-400 hover:text-white transition-colors">Features</a>
+          <a href="#problems-solved" className="text-sm text-neutral-400 hover:text-white transition-colors">Problems-solved</a>
         </div>
 
         <div className="hidden md:flex items-center gap-4">
