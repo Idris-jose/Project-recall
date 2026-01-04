@@ -16,7 +16,7 @@ function CTA({ email, setEmail, handleSubmit, isLoading, submitted }: any) {
           Ready to unlock your data?
         </h2>
         <p className="text-xl text-neutral-400 mb-12 max-w-2xl mx-auto">
-          Join the waitlist today and get 3 months of the Pro plan for free when we launch.
+          Join the waitlist today and be the first to experience the future of data interaction.
         </p>
 
         {!submitted ? (
